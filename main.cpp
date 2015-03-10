@@ -12,13 +12,13 @@
 #include <iostream>
 #include <fstream>
 #include "lex.h"
-#include "codegen.h"
+//#include "codegen.h"
 
-extern cAstNode *yyast_root;
+//extern cAstNode *yyast_root;
 
 int main(int argc, char **argv)
 {
-    std::cout << "Philip Howard" << std::endl;
+    std::cout << "Casey Schurman" << std::endl;
 
     const char *outfile_name;
     int result = 0;
@@ -53,16 +53,16 @@ int main(int argc, char **argv)
     // redirect cout to the output file
     //std::cerr.rdbuf(output.rdbuf());
 
-    symbolTableRoot = cSymbolTable::CreateDefaultTable();
+    //symbolTableRoot = cSymbolTable::CreateDefaultTable();
     result = yyparse();
     if (result == 0)
     {
         //std::cout << yyast_root->toString() << std::endl;
-        yyast_root->ComputeOffsets(0);
-        output << yyast_root->toString() << std::endl;
-        InitOutput("langout.c");
-        yyast_root->GenerateCode();
-        FinalizeOutput();
+        //yyast_root->ComputeOffsets(0);
+        //output << yyast_root->toString() << std::endl;
+        //InitOutput("langout.c");
+        //yyast_root->GenerateCode();
+        //FinalizeOutput();
     } else {
         std::cerr << yynerrs << " Errors in compile" << std::endl;
     }
