@@ -1,4 +1,6 @@
-/* lang.y */
+// Main routine for lang compiler.
+// This version only runs the lexer
+//
 
 %{
 #include <iostream>
@@ -7,48 +9,55 @@
 
 %locations
 
-// define semantic value type
-%union{
-    int             int_val;
+%union
+    {
+        int     int_val;
     }
-
 %{
     int yyerror(const char *msg);
-
-    void *yyast_root;
 %}
 
-// Define start symbol
 %start  program
 
-// define token types that have an associated semantic value
 %token <int_val>    INT_VAL
 
-// define token types that don't have a semantic value
 %token  PRINT
 %token  END
 %token  OPERATOR
 %token  IDENTIFIER
 %token  JUNK_TOKEN
 
-%type <ast_node> program
-%type <ast_node> stmts
-%type <sym_table> stmt
-%type <sym_table> expr
+//Need to declare types for non-terminals below, don't know what to make them,
+//can't be cAstNode's.
+
 
 %%
+program:    stmts END ';'       {
+                                    //$$ = $1;
+                                    //yyast_root = $$;
+                                    //if (yynerrs == 0) 
+                                    //  YYACCEPT;
+                                    //else
+                                    //  YYABORT;
+                                }
 
-program: stmts                  {}
+stmts:  stmts stmt              {}
+        |   stmt                {}
 
-stmts:   stmts stmts            {}
-      |  stmt                   {}
-      
-stmt:   expr IDENTIFIER         {}
-      | expr PRINT              {}
-      | expr END                {}
-      
+stmt:   expr PRINT              {}
+        
+id:     expr IDENTIFIER         {}
+
 expr:   INT_VAL                 {}
-      | IDENTIFIER              {}
-      | expr expr OPERATOR      {}
-
+        |   expr expr OPERATOR  {}
+        |   id                  {}
+        
 %%
+
+int yyerror(const char *msg)
+{
+    std::cerr << "ERROR: " << msg << " at symbol "
+        << yytext << " on line " << yylineno << "\n";
+
+    return 0;
+}

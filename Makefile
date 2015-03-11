@@ -12,6 +12,8 @@ clean:
 	rm -f langparse.h
 	rm -f lang
 	rm -f out
+	rm -f lang.tab.c
+	rm -f lang.output
 
 .cpp.o:
 	g++ $(COPTS) $? -o $@

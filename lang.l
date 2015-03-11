@@ -3,6 +3,8 @@
 // Casey Schurman
 
 #include "lex.h"
+#include "tokens.h"
+#include "langparse.h"
 
 #define RETURN(a) return Return(a);
 static int Return(int val);
@@ -21,7 +23,7 @@ identifier	    [a-zA-Z]*
 %%
 
 "//"(.)+$                   {}
-{whitespace}+               {}
+{whitespace}                {}
 {operator}                  RETURN(yytext[0]);
 "print"                     RETURN(PRINT);
 "end"                       RETURN(END);

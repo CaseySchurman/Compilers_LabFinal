@@ -1,6 +1,6 @@
 #pragma once
 
-//#include "langparse.h"
+#include "langparse.h"
 
 int yylex();
 
